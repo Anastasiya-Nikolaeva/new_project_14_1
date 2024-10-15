@@ -34,7 +34,8 @@ class Category:
             return "Нет товаров в категории."
 
         return "\n".join(
-            f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self._products)
+            f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self._products
+        )
 
     def get_products(self) -> List[Product]:
         """Метод для получения списка продуктов"""
@@ -44,6 +45,7 @@ class Category:
     def products(self) -> List[Product]:
         """Геттер для получения списка продуктов"""
         return self._products.copy()
+
 
 # # Пример использования
 # if __name__ == "__main__":

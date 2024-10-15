@@ -28,24 +28,28 @@ class Product:
             return
 
         if value < self.__price:
-            confirmation = input(f"Новая цена {value} ниже текущей цены {self.__price}. Вы уверены, что хотите "
-                                 f"понизить цену? (y/n): ")
-            if confirmation.lower() != 'y':
+            confirmation = input(
+                f"Новая цена {value} ниже текущей цены {self.__price}. Вы уверены, что хотите "
+                f"понизить цену? (y/n): "
+            )
+            if confirmation.lower() != "y":
                 print("Изменение цены отменено.")
                 return
 
         self.__price = value
 
     @classmethod
-    def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List['Product']] = None) -> 'Product':
+    def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List["Product"]] = None) -> "Product":
         """Класс-метод для создания нового продукта из словаря"""
         if existing_products is None:
             existing_products = []
 
-        name = product_dt.get('name', '') or ''  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
-        description = product_dt.get('description', '') or ''  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
-        price = float(product_dt.get('price', 0))
-        quantity = int(product_dt.get('quantity', 0))
+        name = product_dt.get("name", "") or ""  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
+        description = (
+            product_dt.get("description", "") or ""
+        )  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
+        price = float(product_dt.get("price", 0))
+        quantity = int(product_dt.get("quantity", 0))
 
         for existing_product in existing_products:
             if existing_product.name == name:

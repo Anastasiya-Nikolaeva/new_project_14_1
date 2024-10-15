@@ -53,7 +53,7 @@ def test_set_price_zero_value(product: Product) -> None:
 def test_set_price_lower_than_current(product: Product, monkeypatch: Any) -> None:
     """Тестирование установки цены ниже текущей с подтверждением"""
     # Подменяем ввод пользователя
-    monkeypatch.setattr('builtins.input', lambda _: 'y')
+    monkeypatch.setattr("builtins.input", lambda _: "y")
     product.price = 25000.0
     assert product.price == 25000.0  # Цена должна измениться
 
@@ -61,22 +61,17 @@ def test_set_price_lower_than_current(product: Product, monkeypatch: Any) -> Non
 def test_set_price_lower_than_current_cancel(product: Product, monkeypatch: Any) -> None:
     """Тестирование установки цены ниже текущей с отменой"""
     # Подменяем ввод пользователя
-    monkeypatch.setattr('builtins.input', lambda _: 'n')
+    monkeypatch.setattr("builtins.input", lambda _: "n")
     product.price = 25000.0
     assert product.price == 31000.0  # Цена не должна измениться
 
 
 def test_new_product_creation() -> None:
     """Тестирование создания нового продукта"""
-    product_data = {
-        'name': 'Apple iPhone 14',
-        'description': '128GB, Черный',
-        'price': "80000.0",
-        'quantity': "5"
-    }
+    product_data = {"name": "Apple iPhone 14", "description": "128GB, Черный", "price": "80000.0", "quantity": "5"}
     new_product = Product.new_product(product_data)
-    assert new_product.name == 'Apple iPhone 14'
-    assert new_product.description == '128GB, Черный'
+    assert new_product.name == "Apple iPhone 14"
+    assert new_product.description == "128GB, Черный"
     assert new_product.price == 80000.0
     assert new_product.quantity == 5
 
@@ -85,10 +80,10 @@ def test_new_product_update_existing(product: Product) -> None:
     """Тестирование обновления существующего продукта"""
     existing_products = [product]
     product_data = {
-        'name': 'Xiaomi Redmi Note 11',
-        'description': '1024GB, Синий',
-        'price': "32000.0",
-        'quantity': "5"
+        "name": "Xiaomi Redmi Note 11",
+        "description": "1024GB, Синий",
+        "price": "32000.0",
+        "quantity": "5",
     }
 
     # Обновляем существующий продукт
