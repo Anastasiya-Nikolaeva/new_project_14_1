@@ -25,7 +25,7 @@ def category() -> Category:
 
 
 @pytest.fixture(autouse=True)
-def reset_category_count() -> Generator[None]:
+def reset_category_count() -> Generator[None, None, None]:
     """Фикстура для сброса счетчика категорий перед каждым тестом."""
     Category.category_count = 0
     yield
@@ -33,7 +33,7 @@ def reset_category_count() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-def reset_product_count() -> Generator[None]:
+def reset_product_count() -> Generator[None, None, None]:
     """Фикстура для сброса счетчика продуктов перед каждым тестом."""
     Category.product_count = 0
     yield
