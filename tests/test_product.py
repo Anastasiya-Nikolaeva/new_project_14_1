@@ -93,5 +93,18 @@ def test_new_product_update_existing(product: Product) -> None:
     assert updated_product.price == 32000.0  # Цена должна обновиться
 
 
+def test_product_str(product: Product) -> None:
+    """Тестирование строкового представления продукта"""
+    assert str(product) == "Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт."
+
+
+def test_add_products() -> None:
+    """Тестирование сложения двух продуктов"""
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    total_value = product1 + product2
+    assert total_value == (180000.0 * 5) + (210000.0 * 8)  # Ожидаемая общая стоимость
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main())

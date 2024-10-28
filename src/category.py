@@ -21,11 +21,18 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(self.__products)
 
+    def __str__(self) -> str:
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"Название категории: {self.name}, количество продуктов: {total_quantity} шт."
+
     def add_product(self, product: Product) -> None:
         """Добавляет продукт в категорию, если его еще нет в списке"""
         if product not in self.__products:
             self.__products.append(product)
             Category.product_count += 1
+        else:
+            # Если продукт уже есть, обновляем только его количество
+            product.quantity += 1  # или любое другое значение, которое вы хотите добавить
 
     @property
     def products_info(self) -> str:
@@ -33,9 +40,7 @@ class Category:
         if not self.__products:
             return "Нет товаров в категории."
 
-        return "\n".join(
-            f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products
-        )
+        return "\n".join(str(product) for product in self.__products)
 
     def get_products(self) -> List[Product]:
         """Метод для получения списка продуктов"""
@@ -47,15 +52,15 @@ class Category:
         return self.__products.copy()
 
 
-# Пример использования
-if __name__ == "__main__":
-    category = Category("Смартфоны",
-                        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций "
-                        "для удобства жизни")
-    product1 = Product("Samsung Galaxy S23 Ultra", "Современный смартфон", 180000.0, 5)
-    product2 = Product("Iphone 15", "1024GB, Синий", 210000.0, 8)
-
-    category.add_product(product1)
-    category.add_product(product2)
-
-    print(category.products_info)
+# # Пример использования
+# if __name__ == "__main__":
+#     category = Category("Смартфоны",
+#                         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций "
+#                         "для удобства жизни")
+#     product1 = Product("Samsung Galaxy S23 Ultra", "Современный смартфон", 180000.0, 5)
+#     product2 = Product("Iphone 15", "1024GB, Синий", 210000.0, 8)
+#
+#     category.add_product(product1)
+#     category.add_product(product2)
+#
+#     print(category.products_info)

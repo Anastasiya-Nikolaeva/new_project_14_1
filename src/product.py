@@ -15,6 +15,9 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self) -> str:
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
     @property
     def price(self) -> float:
         """Геттер для получения цены"""
@@ -37,6 +40,18 @@ class Product:
                 return
 
         self.__price = value
+
+    def __add__(self, other: "Product") -> float:
+        """Переопределение оператора сложения для получения полной стоимости"""
+        if not isinstance(other, Product):
+            return NotImplemented
+
+        # Полная стоимость для каждого продукта
+        total_value_self = self.__price * self.quantity
+        total_value_other = other.price * other.quantity
+
+        # Возвращаем полную стоимость
+        return total_value_self + total_value_other
 
     @classmethod
     def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List["Product"]] = None) -> "Product":
