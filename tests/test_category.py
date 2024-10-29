@@ -74,5 +74,28 @@ def test_get_products(category: Category, product: Product) -> None:
     assert products is not category.products  # Проверка, что возвращается копия списка
 
 
+def test_category_str(category: Category, product: Product) -> None:
+    """Тестирование строкового представления категории"""
+    category.add_product(product)
+    assert str(category) == "Название категории: Смартфоны, количество продуктов: 14 шт."
+
+
+def test_add_product_new(category: Category, product: Product) -> None:
+    """Тестирование добавления нового продукта в категорию"""
+    category.add_product(product)
+    assert len(category.get_products()) == 1  # Проверяем, что продукт добавлен
+    assert Category.product_count == 1  # Проверяем, что счетчик продуктов увеличился
+
+
+def test_add_product_existing(category: Category, product: Product) -> None:
+    """Тестирование добавления существующего продукта в категорию"""
+    category.add_product(product)
+    initial_quantity = product.quantity
+    category.add_product(product)  # Добавляем тот же продукт еще раз
+    assert len(category.get_products()) == 1  # Продукт все еще один
+    assert product.quantity == initial_quantity + 1  # Количество должно увеличиться на 1
+    assert Category.product_count == 1  # Счетчик продуктов не должен увеличиться
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main())
