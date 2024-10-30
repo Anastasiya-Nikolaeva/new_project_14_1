@@ -27,12 +27,16 @@ class Category:
 
     def add_product(self, product: Product) -> None:
         """Добавляет продукт в категорию, если его еще нет в списке"""
-        if product not in self.__products:
-            self.__products.append(product)
-            Category.product_count += 1
-        else:
-            # Если продукт уже есть, обновляем только его количество
-            product.quantity += 1  # или любое другое значение, которое вы хотите добавить
+        if not isinstance(product, Product):
+            raise TypeError
+
+        for existing_product in self.__products:
+            if existing_product.name == product.name:
+                existing_product.quantity += product.quantity  # Обновляем количество
+                return
+
+        self.__products.append(product)
+        Category.product_count += 1
 
     @property
     def products_info(self) -> str:

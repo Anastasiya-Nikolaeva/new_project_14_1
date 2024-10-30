@@ -89,11 +89,11 @@ def test_add_product_new(category: Category, product: Product) -> None:
 
 def test_add_product_existing(category: Category, product: Product) -> None:
     """Тестирование добавления существующего продукта в категорию"""
-    category.add_product(product)
-    initial_quantity = product.quantity
+    category.add_product(product)  # Добавляем продукт в категорию
+    initial_quantity = product.quantity  # Это будет 14
     category.add_product(product)  # Добавляем тот же продукт еще раз
     assert len(category.get_products()) == 1  # Продукт все еще один
-    assert product.quantity == initial_quantity + 1  # Количество должно увеличиться на 1
+    assert product.quantity == initial_quantity + initial_quantity  # Количество должно увеличиться на 14
     assert Category.product_count == 1  # Счетчик продуктов не должен увеличиться
 
 
