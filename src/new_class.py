@@ -23,7 +23,7 @@ class Smartphone(Product):
 
     def __add__(self, other: "Product") -> Any:
         """Переопределение оператора сложения для получения полной стоимости"""
-        if isinstance(other, Smartphone):
+        if type(other) is Smartphone:
             total_value_self = self.price * self.quantity
             total_value_other = other.price * other.quantity
             return total_value_self + total_value_other
@@ -48,7 +48,7 @@ class LawnGrass(Product):
 
     def __add__(self, other: "Product") -> Any:
         """Переопределение оператора сложения для получения полной стоимости"""
-        if isinstance(other, LawnGrass):
+        if type(other) is LawnGrass:
             total_value_self = self.price * self.quantity
             total_value_other = other.price * other.quantity
             return total_value_self + total_value_other
