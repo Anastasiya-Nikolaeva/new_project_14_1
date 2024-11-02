@@ -43,7 +43,7 @@ class Product:
 
     def __add__(self, other: "Product") -> float:
         """Переопределение оператора сложения для получения полной стоимости"""
-        if isinstance(other, Product):
+        if type(other) is Product:
             # Полная стоимость для каждого продукта
             total_value_self = self.price * self.quantity
             total_value_other = other.price * other.quantity
