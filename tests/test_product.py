@@ -106,5 +106,41 @@ def test_add_products() -> None:
     assert total_value == (180000.0 * 5) + (210000.0 * 8)  # Ожидаемая общая стоимость
 
 
+def test_product_initialization_invalid_price() -> None:
+    """Тестирование инициализации продукта с некорректной ценой"""
+    with pytest.raises(ValueError):
+        Product("Товар", "Описание", -100.0, 10)
+
+
+def test_product_initialization_invalid_quantity() -> None:
+    """Тестирование инициализации продукта с некорректным количеством"""
+    with pytest.raises(ValueError):
+        Product("Товар", "Описание", 100.0, -5)
+
+
+def test_add_invalid_type() -> None:
+    """Тестирование сложения с объектом неверного типа"""
+    product1 = Product("Товар 1", "Описание 1", 100.0, 10)
+    with pytest.raises(TypeError):
+        product1 + "непродукт"
+
+
+def test_new_product_update_existing_same_name(product: Product) -> None:
+    """Тестирование обновления существующего продукта с одинаковым именем"""
+    existing_products = [product]
+    product_data = {
+        "name": "Xiaomi Redmi Note 11",
+        "description": "Обновленное описание",
+        "price": "33000.0",
+        "quantity": "3",
+    }
+
+    # Обновляем существующий продукт
+    updated_product = Product.new_product(product_data, existing_products)
+
+    assert updated_product.quantity == 17  # Количество должно увеличиться
+    assert updated_product.price == 33000.0  # Цена должна обновиться
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main())

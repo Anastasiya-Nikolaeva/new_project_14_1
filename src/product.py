@@ -1,7 +1,17 @@
-from typing import Dict, List, Optional
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+
+from .print_mixin import PrintMixin
 
 
-class Product:
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def __add__(self, other: Any) -> Any:
+        pass
+
+
+class Product(PrintMixin, BaseProduct):
     """Класс для представления продуктов"""
 
     name: str
@@ -10,6 +20,12 @@ class Product:
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+        if price < 0:
+            raise ValueError("Цена не может быть отрицательной")
+        if quantity < 0:
+            raise ValueError("Количество не может быть отрицательным")
+
+        super().__init__(name, description, price, quantity)
         self.name = name
         self.description = description
         self.__price = price
@@ -51,7 +67,7 @@ class Product:
         raise TypeError
 
     @classmethod
-    def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List["Product"]] = None) -> "Product":
+    def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List["Product"]] = None) -> Any:
         """Класс-метод для создания нового продукта из словаря"""
         if existing_products is None:
             existing_products = []
