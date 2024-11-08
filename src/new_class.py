@@ -21,7 +21,7 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
-    def __add__(self, other: "Product") -> Any:
+    def __add__(self, other: Any) -> Any:
         """Переопределение оператора сложения для получения полной стоимости"""
         if isinstance(other, Smartphone):
             total_value_self = self.price * self.quantity
@@ -46,7 +46,7 @@ class LawnGrass(Product):
         self.germination_period = germination_period
         self.color = color
 
-    def __add__(self, other: "Product") -> Any:
+    def __add__(self, other: Any) -> Any:
         """Переопределение оператора сложения для получения полной стоимости"""
         if isinstance(other, LawnGrass):
             total_value_self = self.price * self.quantity

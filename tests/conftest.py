@@ -79,3 +79,21 @@ def lawn_grass2() -> LawnGrass:
     return LawnGrass(
         "Спортивная трава", "Трава для спортивных площадок", 2000.0, 10, "США", "10 дней", "Темно-зеленый"
     )
+
+
+@pytest.fixture
+def category_with_products(product: Product, product2: Product) -> Category:
+    """Создание категории с продуктами"""
+    return Category("Смартфоны", "Категория смартфонов", [product, product2])
+
+
+@pytest.fixture
+def empty_category() -> Category:
+    """Создание пустой категории"""
+    return Category("Пустая категория", "Описание пустой категории")
+
+
+@pytest.fixture
+def category_1(category: Category) -> Category:
+    """Для создания категории"""
+    return category

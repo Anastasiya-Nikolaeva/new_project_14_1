@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from src.product import Product
 
@@ -55,16 +55,15 @@ class Category:
         """Геттер для получения списка продуктов"""
         return self.__products.copy()
 
-
-# # Пример использования
-# if __name__ == "__main__":
-#     category = Category("Смартфоны",
-#                         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций "
-#                         "для удобства жизни")
-#     product1 = Product("Samsung Galaxy S23 Ultra", "Современный смартфон", 180000.0, 5)
-#     product2 = Product("Iphone 15", "1024GB, Синий", 210000.0, 8)
-#
-#     category.add_product(product1)
-#     category.add_product(product2)
-#
-#     print(category.products_info)
+    def middle_price(self) -> Any:
+        try:
+            if not self.__products:
+                raise ValueError("В категории нет товаров")
+            total_price = sum(product.price for product in self.__products)
+            average_price = round(total_price / len(self.__products), 2)
+            return average_price
+        except ZeroDivisionError:
+            return 0.0
+        except ValueError as e:
+            print(e)
+            return 0.0
