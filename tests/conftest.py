@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Any, Generator
 
 import pytest
 
@@ -17,6 +17,14 @@ def product() -> Product:
 def product2() -> Product:
     """Создание второго продукта"""
     return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+
+
+@pytest.fixture
+def product3(mocker: Any) -> Any:
+    """Для создания продукта"""
+    mock_print = mocker.patch("builtins.print")
+    product_instance = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    return product_instance, mock_print
 
 
 @pytest.fixture
