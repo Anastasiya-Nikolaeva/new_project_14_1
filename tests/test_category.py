@@ -1,7 +1,3 @@
-import sys
-
-import pytest
-
 from src.category import Category
 from src.product import Product
 
@@ -97,5 +93,25 @@ def test_add_product_existing(category: Category, product: Product) -> None:
     assert Category.product_count == 1  # Счетчик продуктов не должен увеличиться
 
 
-if __name__ == "__main__":
-    sys.exit(pytest.main())
+def test_middle_price_with_products(category_with_products: Category) -> None:
+    """Тестируем среднюю цену с товарами"""
+    expected_average = (
+        category_with_products.get_products()[0].price + category_with_products.get_products()[1].price
+    ) / 2
+    assert category_with_products.middle_price() == expected_average
+
+
+def test_middle_price_empty_category(empty_category: Category) -> None:
+    """Тестируем среднюю цену в пустой категории"""
+    assert empty_category.middle_price() == 0.0
+
+
+def test_middle_price_one_product(product: Product) -> None:
+    """Тестируем среднюю цену с одним товаром"""
+    category = Category("Категория 1", "Описание категории", [product])
+    assert category.middle_price() == product.price
+
+
+def test_middle_price_with_empty_category(category_1: Category) -> None:
+    """Тестируем среднюю цену с пустой категорией"""
+    assert category_1.middle_price() == 0.0

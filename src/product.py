@@ -22,8 +22,8 @@ class Product(PrintMixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
         if price < 0:
             raise ValueError("Цена не может быть отрицательной")
-        if quantity < 0:
-            raise ValueError("Количество не может быть отрицательным")
+        if quantity < 1:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
         super().__init__(name, description, price, quantity)
         self.name = name
@@ -57,14 +57,14 @@ class Product(PrintMixin, BaseProduct):
 
         self.__price = value
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: Any) -> float:
         """Переопределение оператора сложения для получения полной стоимости"""
         if type(other) is Product:
             # Полная стоимость для каждого продукта
             total_value_self = self.price * self.quantity
             total_value_other = other.price * other.quantity
             return total_value_self + total_value_other
-        raise TypeError
+        raise TypeError(f"Cannot add Product with {type(other).__name__}")
 
     @classmethod
     def new_product(cls, product_dt: Dict[str, str], existing_products: Optional[List["Product"]] = None) -> Any:
@@ -72,7 +72,7 @@ class Product(PrintMixin, BaseProduct):
         if existing_products is None:
             existing_products = []
 
-        name = product_dt.get("name", "") or ""  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
+        name = product_dt.get("name", "").strip()  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
         description = (
             product_dt.get("description", "") or ""
         )  # Пустая строка по умолчанию чтобы mypy не выдавал ошибку
