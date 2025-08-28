@@ -1,0 +1,117 @@
+from src.category import Category
+from src.product import Product
+
+
+def test_category_initialization(category: Category) -> None:
+    """Тестирование инициализации категории"""
+    assert category.name == "Смартфоны"
+    assert category.description == (
+        "Смартфоны, как средство не только коммуникации, но и получения " "дополнительных функций для удобства жизни"
+    )
+    assert category.products == []
+    assert Category.category_count == 1  # Проверка, что счетчик категорий равен 1
+
+
+def test_multiple_categories() -> None:
+    """Тестирование подсчета категорий при создании нескольких категорий"""
+    category1 = Category("Смартфоны", "Описание смартфонов")
+    category2 = Category("Ноутбуки", "Описание ноутбуков")
+    category3 = Category("Планшеты", "Описание планшетов")
+
+    assert Category.category_count == 3
+    assert category1.name == "Смартфоны"
+    assert category2.name == "Ноутбуки"
+    assert category3.name == "Планшеты"
+
+
+def test_add_product(category: Category, product: Product) -> None:
+    """Тестирование добавления продукта в категорию"""
+    category.add_product(product)
+    assert len(category.products) == 1
+    assert category.products[0] == product
+    assert Category.product_count == 1  # Проверка, что счетчик продуктов увеличился на 1
+
+
+def test_add_multiple_products(category: Category, product: Product) -> None:
+    """Тестирование добавления нескольких продуктов в категорию"""
+    product2 = Product("Samsung Galaxy", "128GB, Черный", 25000.0, 10)
+    category.add_product(product)
+    category.add_product(product2)
+
+    assert len(category.products) == 2
+    assert category.products[0] == product
+    assert category.products[1] == product2
+    assert Category.product_count == 2  # Проверка, что счетчик продуктов увеличился на 2
+
+
+def test_add_duplicate_product(category: Category, product: Product) -> None:
+    """Тестирование добавления дубликата продукта в категорию"""
+    category.add_product(product)
+    category.add_product(product)  # Добавляем тот же продукт еще раз
+
+    assert len(category.products) == 1  # Продукт не должен добавляться повторно
+    assert Category.product_count == 1  # Счетчик продуктов не должен увеличиваться
+
+
+def test_products_info(category: Category, product: Product) -> None:
+    """Тестирование получения информации о продуктах"""
+    category.add_product(product)
+    expected_info = f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
+    assert category.products_info == expected_info
+
+
+def test_get_products(category: Category, product: Product) -> None:
+    """Тестирование метода получения списка продуктов"""
+    category.add_product(product)
+    products = category.get_products()
+
+    assert len(products) == 1
+    assert products[0] == product
+    assert products is not category.products  # Проверка, что возвращается копия списка
+
+
+def test_category_str(category: Category, product: Product) -> None:
+    """Тестирование строкового представления категории"""
+    category.add_product(product)
+    assert str(category) == "Название категории: Смартфоны, количество продуктов: 14 шт."
+
+
+def test_add_product_new(category: Category, product: Product) -> None:
+    """Тестирование добавления нового продукта в категорию"""
+    category.add_product(product)
+    assert len(category.get_products()) == 1  # Проверяем, что продукт добавлен
+    assert Category.product_count == 1  # Проверяем, что счетчик продуктов увеличился
+
+
+def test_add_product_existing(category: Category, product: Product) -> None:
+    """Тестирование добавления существующего продукта в категорию"""
+    category.add_product(product)  # Добавляем продукт в категорию
+    initial_quantity = product.quantity  # Это будет 14
+    category.add_product(product)  # Добавляем тот же продукт еще раз
+    assert len(category.get_products()) == 1  # Продукт все еще один
+    assert product.quantity == initial_quantity + initial_quantity  # Количество должно увеличиться на 14
+    assert Category.product_count == 1  # Счетчик продуктов не должен увеличиться
+
+
+def test_middle_price_with_products(category_with_products: Category) -> None:
+    """Тестируем среднюю цену с товарами"""
+    expected_average = (
+        category_with_products.get_products()[0].price + category_with_products.get_products()[1].price
+    ) / 2
+    assert category_with_products.middle_price() == expected_average
+
+
+def test_middle_price_empty_category(empty_category: Category) -> None:
+    """Тестируем среднюю цену в пустой категории"""
+    assert empty_category.middle_price() == 0.0
+
+
+def test_middle_price_one_product(product: Product) -> None:
+    """Тестируем среднюю цену с одним товаром"""
+    category = Category("Категория 1", "Описание категории", [product])
+    assert category.middle_price() == product.price
+
+
+def test_middle_price_with_empty_category(category_1: Category) -> None:
+    """Тестируем среднюю цену с пустой категорией"""
+    assert category_1.middle_price() == 0.0

@@ -15,6 +15,9 @@ pytest = "^8.3.3"
 pandas = "^2.2.3"
 requests = "^2.32.3"
 
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+
 [tool.black]
 # Максимальная длина строки
 line-length = 119
